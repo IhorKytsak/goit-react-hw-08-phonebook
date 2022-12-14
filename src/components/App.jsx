@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { nanoid } from 'nanoid';
 
 import ContactForm from './ContactForm/ContactForm';
 import Filter from './Filter/Filter';
 import ContactList from './ContactList/ContactList';
+import {
+  getlocalStorageData,
+  setlocalStorageData,
+} from '../utils/local-storage';
 
 const App = () => {
   const initState = {
@@ -17,6 +21,17 @@ const App = () => {
   };
 
   const [state, setState] = useState(initState);
+
+  useEffect(() => {
+    const contactsFromLS = getlocalStorageData();
+
+    if (contactsFromLS && contactsFromLS.length > 0) {
+      setState(prevState => ({
+        ...prevState,
+        contacts: contactsFromLS,
+      }));
+    }
+  }, []);
 
   const formSubmitHandler = newContactData => {
     const contactNames = state.contacts.map(contact => contact.name);
@@ -35,6 +50,8 @@ const App = () => {
         ...prevState,
         contacts: extendedContacts,
       }));
+
+      setlocalStorageData(extendedContacts);
     } else {
       alert(`${newContactData.name} is already in contacts.`);
     }
@@ -48,6 +65,8 @@ const App = () => {
       ...prevState,
       contacts: [...updatedContacts],
     }));
+
+    setlocalStorageData(updatedContacts);
   };
 
   const changeFilterHandler = filterData => {
