@@ -1,0 +1,22 @@
+.contactList {
+  width: 400px;
+}
+
+.contactList button {
+  width: fit-content;
+  padding: 2px 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: transparent;
+  margin-left: 15px;
+  cursor: pointer;
+  transition: all 0.2s linear;
+}
+
+.contactList button:hover {
+  background-color: #ccc;
+}
+
+.contactList li {
+  margin: 8px;
+}

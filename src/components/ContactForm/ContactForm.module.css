@@ -1,0 +1,25 @@
+.contactFormContainer {
+  border: 2px solid #000;
+  width: 400px;
+}
+
+.contactFormContainer form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 20px;
+}
+
+.contactFormContainer button {
+  width: fit-content;
+  padding: 3px 5px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background-color: transparent;
+  cursor: pointer;
+  transition: all .2s linear;
+}
+
+.contactFormContainer button:hover {
+  background-color: #ccc;
+}
