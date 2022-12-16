@@ -1,18 +1,22 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import styles from './ContactList.module.css';
 
-const ContactList = ({ contacts, onDelete }) => {
-  const createList = contacts.map(contact => (
-    <li key={contact.id}>
-      {`${contact.name}: ${contact.number}`}
-      <button onClick={() => onDelete(contact.id)}>Delete</button>
-    </li>
-  ));
+class ContactList extends Component {
+  createList = () => {
+    return this.props.contacts.map(contact => (
+      <li key={contact.id}>
+        {`${contact.name}: ${contact.number}`}
+        <button onClick={() => this.props.onDelete(contact.id)}>Delete</button>
+      </li>
+    ));
+  };
 
-  return <ul className={styles.contactList}>{createList}</ul>;
-};
+  render() {
+    return <ul className={styles.contactList}>{this.createList()}</ul>;
+  }
+}
 
 ContactList.propTypes = {
   contacts: PropTypes.array.isRequired,
