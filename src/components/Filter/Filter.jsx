@@ -1,22 +1,20 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-class Filter extends Component {
-  setFilterValue = event => {
+const Filter = ({ onChangeFilter }) => {
+  const setFilterValue = event => {
     const value = event.currentTarget.value.toUpperCase();
 
-    this.props.onChangeFilter(value);
+    onChangeFilter(value);
   };
 
-  render() {
-    return (
-      <div>
-        <p>Find contacts by name</p>
-        <input onChange={this.setFilterValue}></input>
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <p>Find contacts by name</p>
+      <input onChange={setFilterValue}></input>
+    </div>
+  );
+};
 
 Filter.propTypes = {
   onChangeFilter: PropTypes.func.isRequired,
