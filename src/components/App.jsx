@@ -1,84 +1,49 @@
-import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { nanoid } from 'nanoid';
 
 import ContactForm from './ContactForm/ContactForm';
 import Filter from './Filter/Filter';
 import ContactList from './ContactList/ContactList';
 import {
-  getlocalStorageData,
-  setlocalStorageData,
-} from '../utils/local-storage';
+  addContact,
+  removeContactById,
+  getFilter,
+  setFilterValue,
+} from '../redux/phonebook.slice';
 
 const App = () => {
-  const initState = {
-    contacts: [
-      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-    ],
-    filter: '',
-  };
+  const dispatch = useDispatch();
 
-  const [state, setState] = useState(initState);
-
-  useEffect(() => {
-    const contactsFromLS = getlocalStorageData();
-
-    if (contactsFromLS) {
-      setState(prevState => ({
-        ...prevState,
-        contacts: contactsFromLS,
-      }));
-    }
-  }, []);
+  const contacts = useSelector(state => state.phonebook.contacts);
+  const filter = useSelector(getFilter);
 
   const formSubmitHandler = newContactData => {
-    const contactNames = state.contacts.map(contact => contact.name);
+    const contactNames = contacts.map(contact => contact.name);
 
     if (!contactNames.includes(newContactData.name)) {
-      const extendedContacts = [
-        ...state.contacts,
-        {
+      dispatch(
+        addContact({
           id: nanoid(),
           name: newContactData.name,
           number: newContactData.number,
-        },
-      ];
-
-      setState(prevState => ({
-        ...prevState,
-        contacts: extendedContacts,
-      }));
-
-      setlocalStorageData(extendedContacts);
+        })
+      );
     } else {
       alert(`${newContactData.name} is already in contacts.`);
     }
   };
 
   const deleteContactHandler = deletedContactId => {
-    const updatedContacts = state.contacts.filter(
-      contact => contact.id !== deletedContactId
-    );
-    setState(prevState => ({
-      ...prevState,
-      contacts: [...updatedContacts],
-    }));
-
-    setlocalStorageData(updatedContacts);
+    dispatch(removeContactById(deletedContactId));
   };
 
   const changeFilterHandler = filterData => {
-    setState(prevState => ({
-      ...prevState,
-      filter: `${filterData}`,
-    }));
+    dispatch(setFilterValue(filterData));
   };
 
   const filteredArray = contacts => {
     return contacts.filter(contact =>
-      contact.name.toUpperCase().includes(state.filter)
+      contact.name.toUpperCase().includes(filter)
     );
   };
 
@@ -89,7 +54,7 @@ const App = () => {
       <h2>Contacts</h2>
       <Filter onChangeFilter={changeFilterHandler} />
       <ContactList
-        contacts={filteredArray(state.contacts)}
+        contacts={filteredArray(contacts)}
         onDelete={deleteContactHandler}
       />
     </div>
