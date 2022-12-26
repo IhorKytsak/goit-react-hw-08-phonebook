@@ -1,18 +1,15 @@
 import { useDispatch, useSelector } from 'react-redux';
 
-import { removeContactById, getFilter } from 'redux/phonebook.slice';
+import { selectContacts, selectFilter } from 'redux/selectors';
+import { deleteContact } from 'redux/operations';
 
 import styles from './ContactList.module.css';
 
 const ContactList = () => {
   const dispatch = useDispatch();
 
-  const contacts = useSelector(state => state.phonebook.contacts);
-  const filter = useSelector(getFilter);
-
-  const deleteContactHandler = deletedContactId => {
-    dispatch(removeContactById(deletedContactId));
-  };
+  const contacts = useSelector(selectContacts);
+  const filter = useSelector(selectFilter);
 
   const filteredArray = contacts.filter(contact =>
     contact.name.toUpperCase().includes(filter)
@@ -21,7 +18,9 @@ const ContactList = () => {
   const createList = filteredArray.map(contact => (
     <li key={contact.id}>
       {`${contact.name}: ${contact.number}`}
-      <button onClick={() => deleteContactHandler(contact.id)}>Delete</button>
+      <button onClick={() => dispatch(deleteContact(contact.id))}>
+        Delete
+      </button>
     </li>
   ));
 

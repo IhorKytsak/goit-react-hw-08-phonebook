@@ -1,46 +1,61 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
+
+import { fetchContacts, addContact, deleteContact } from './operations';
 
 const initialState = {
-  contacts: [
-    { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-    { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-    { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-    { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-  ],
+  contacts: {
+    items: [],
+    isLoading: false,
+    error: null,
+  },
   filter: '',
+};
+
+const handlePending = state => {
+  state.contacts.isLoading = true;
+};
+const handleRejected = (state, action) => {
+  state.contacts.isLoading = false;
+  state.contacts.error = action.payload;
 };
 
 export const phonebookSlice = createSlice({
   name: 'phonebook',
   initialState,
   reducers: {
-    addContact: (state, action) => {
-      state.contacts.push(action.payload);
-    },
-    removeContactById: (state, action) => {
-      state.contacts = state.contacts.filter(
-        contact => contact.id !== action.payload
-      );
-    },
     setFilterValue: (state, action) => {
       state.filter = action.payload;
     },
   },
+  extraReducers: {
+    [fetchContacts.pending]: handlePending,
+    [addContact.pending]: handlePending,
+    [deleteContact.pending]: handlePending,
+
+    [fetchContacts.rejected]: handleRejected,
+    [addContact.rejected]: handleRejected,
+    [deleteContact.rejected]: handleRejected,
+
+    [fetchContacts.fulfilled](state, action) {
+      state.contacts.isLoading = false;
+      state.contacts.error = null;
+      state.contacts.items = action.payload;
+    },
+    [addContact.fulfilled](state, action) {
+      state.contacts.isLoading = false;
+      state.contacts.error = null;
+      state.contacts.items.push(action.payload);
+    },
+    [deleteContact.fulfilled](state, action) {
+      state.contacts.isLoading = false;
+      state.contacts.error = null;
+      state.contacts.items = state.contacts.items.filter(
+        item => item.id !== action.payload.id
+      );
+    },
+  },
 });
 
-export const { addContact, removeContactById, setFilterValue } =
-  phonebookSlice.actions;
+export const { setFilterValue } = phonebookSlice.actions;
 
-const persistConfig = {
-  key: 'phonebook-contacts',
-  storage,
-};
-
-export const persistedPhonebookReducer = persistReducer(
-  persistConfig,
-  phonebookSlice.reducer
-);
-
-export const getFilter = state => state.phonebook.filter;
+export const phonebookReducer = phonebookSlice.reducer;

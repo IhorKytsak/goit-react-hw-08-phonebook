@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { nanoid } from 'nanoid';
 
-import { addContact } from 'redux/phonebook.slice';
+import { addContact } from 'redux/operations';
+import { selectContacts } from 'redux/selectors';
 
 import styles from './ContactForm.module.css';
 
@@ -14,7 +15,7 @@ const ContactForm = () => {
 
   const dispatch = useDispatch();
 
-  const contacts = useSelector(state => state.phonebook.contacts);
+  const contacts = useSelector(selectContacts);
 
   const changeHandler = event => {
     const { name, value } = event.currentTarget;
