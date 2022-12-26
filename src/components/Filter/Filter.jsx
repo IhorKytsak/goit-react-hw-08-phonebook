@@ -1,23 +1,22 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 
-const Filter = ({ onChangeFilter }) => {
-  const setFilterValue = event => {
+import { setFilterValue } from 'redux/phonebook.slice';
+
+const Filter = () => {
+  const dispatch = useDispatch();
+
+  const setFilterValueHandler = event => {
     const value = event.currentTarget.value.toUpperCase();
 
-    onChangeFilter(value);
+    dispatch(setFilterValue(value));
   };
 
   return (
     <div>
       <p>Find contacts by name</p>
-      <input onChange={setFilterValue}></input>
+      <input onChange={setFilterValueHandler}></input>
     </div>
   );
-};
-
-Filter.propTypes = {
-  onChangeFilter: PropTypes.func.isRequired,
 };
 
 export default Filter;
