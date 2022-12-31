@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 
-import { setFilterValue } from 'redux/phonebook.slice';
+import { setFilterValue } from 'redux/contacts/contactsSlice';
 
 const Filter = () => {
   const dispatch = useDispatch();

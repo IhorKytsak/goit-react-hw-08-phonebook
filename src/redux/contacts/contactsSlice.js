@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { fetchContacts, addContact, deleteContact } from './operations';
+import { fetchContacts, addContact, deleteContact } from './contactsOperations';
 
 const initialState = {
   contacts: {
@@ -19,8 +19,8 @@ const handleRejected = (state, action) => {
   state.contacts.error = action.payload;
 };
 
-export const phonebookSlice = createSlice({
-  name: 'phonebook',
+export const contactsSlice = createSlice({
+  name: 'contacts',
   initialState,
   reducers: {
     setFilterValue: (state, action) => {
@@ -56,6 +56,6 @@ export const phonebookSlice = createSlice({
   },
 });
 
-export const { setFilterValue } = phonebookSlice.actions;
+export const { setFilterValue } = contactsSlice.actions;
 
-export const phonebookReducer = phonebookSlice.reducer;
+export const contactsReducer = contactsSlice.reducer;

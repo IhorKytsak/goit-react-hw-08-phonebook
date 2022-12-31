@@ -1,0 +1,23 @@
+.userWrapper {
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.userWrapper h4 {
+  padding: 8px;
+  margin: 12px 0;
+}
+
+.logoutBtn {
+  cursor: pointer;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 8px;
+  margin: 0 20px;
+  transition: all 0.2s linear;
+}
+
+.logoutBtn:hover {
+  transform: scaleX(1.1);
+}

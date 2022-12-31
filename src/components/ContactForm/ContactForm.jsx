@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { nanoid } from 'nanoid';
 
-import { addContact } from 'redux/operations';
-import { selectContacts } from 'redux/selectors';
+import { addContact } from 'redux/contacts/contactsOperations';
+import { selectContacts } from 'redux/contacts/contactsSelectors';
 
 import styles from './ContactForm.module.css';
 
@@ -31,7 +30,6 @@ const ContactForm = () => {
     if (!contactNames.includes(contact.name)) {
       dispatch(
         addContact({
-          id: nanoid(),
           name: contact.name,
           number: contact.number,
         })

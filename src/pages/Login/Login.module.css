@@ -1,0 +1,15 @@
+.loginWrapper {
+  padding: 30px;
+}
+
+.loginWrapper button {
+  padding: 5px 35px;
+  border-radius: 5px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s linear;
+}
+
+.loginWrapper button:hover {
+  border: 1px solid #000;
+}
