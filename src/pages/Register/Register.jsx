@@ -21,9 +21,11 @@ const Register = () => {
   const handleSubmit = event => {
     event.preventDefault();
 
-    const name = event.currentTarget.elements.name.value;
-    const email = event.currentTarget.elements.email.value;
-    const password = event.currentTarget.elements.password.value;
+    const form = event.currentTarget;
+
+    const name = form.elements.name.value;
+    const email = form.elements.email.value;
+    const password = form.elements.password.value;
 
     dispatch(
       register({
@@ -32,7 +34,7 @@ const Register = () => {
         password,
       })
     );
-    event.currentTarget.reset();
+    form.reset();
   };
 
   const registerForm = (
