@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { refreshUser } from 'redux/auth/authOperations';
 import AppRouter from 'routes/AppRouter';
@@ -16,6 +18,7 @@ const App = () => {
     <>
       <Navigation />
       <AppRouter />
+      <ToastContainer />
     </>
   );
 };

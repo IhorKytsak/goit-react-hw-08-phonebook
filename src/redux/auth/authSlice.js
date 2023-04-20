@@ -30,9 +30,11 @@ const authSlice = createSlice({
       .addCase(register.pending, handlePending)
       .addCase(logIn.pending, handlePending)
       .addCase(logOut.pending, handlePending)
+      .addCase(refreshUser.pending, handlePending)
       .addCase(register.rejected, handleRejected)
       .addCase(logIn.rejected, handleRejected)
       .addCase(logOut.rejected, handleRejected)
+      .addCase(refreshUser.rejected, handleRejected)
       .addCase(register.fulfilled, (state, action) => {
         state.user = action.payload.user;
         state.token = action.payload.token;
@@ -56,6 +58,7 @@ const authSlice = createSlice({
         state.user.name = name;
         state.user.email = email;
         state.isLoggedIn = true;
+        state.isLoading = false;
       });
   },
 });
